@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Loading from "../../Loading";
 import ErrorMessage from "../../ErrorMessage";
+import { register } from "../../../actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
 
 const RegisterPage = ({ history }) => {
   const [name, setName] = useState("");
@@ -16,38 +18,22 @@ const RegisterPage = ({ history }) => {
   );
   const [message, setMessage] = useState(null);
   const [picMessage, setPicMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error, userInfo } = userRegister;
 
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
-      setMessage(null);
-      try {
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-          },
-        };
-        setLoading(true);
-        const { data } = await axios.post(
-          "/api/users",
-          { name, pic, email, password },
-          config
-        );
-        localStorage.setItem("userInfo", JSON.stringify(data));
-        setLoading(false);
-      } catch (error) {
-        setError(error.response.data.message);
-        setLoading(false);
-      }
+      dispatch(register(name, email, password, pic));
     }
   };
 
   const postDetails = (profilePic) => {
-    console.log({ profilePic });
     if (!profilePic) {
       return;
     }
@@ -72,6 +58,12 @@ const RegisterPage = ({ history }) => {
       return setPicMessage("Please select a message");
     }
   };
+
+  useEffect(() => {
+    if (userInfo) {
+      history.push("/mynotes");
+    }
+  }, [history, userInfo]);
 
   return (
     <MainScreen title="REGISTER">
