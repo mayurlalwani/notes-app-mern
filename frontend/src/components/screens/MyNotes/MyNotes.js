@@ -2,33 +2,45 @@ import React, { useState, useEffect } from "react";
 import MainScreen from "../../MainScreen";
 import { Link } from "react-router-dom";
 import { Button, Card, Badge, Accordion } from "react-bootstrap";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { listNotes } from "../../../actions/noteActions";
+import Loading from "../../../components/Loading";
+import { useHistory } from "react-router-dom";
 
 const MyNotes = () => {
-  const [notesData, setNotesData] = useState([]);
+  const dispatch = useDispatch();
+  const noteList = useSelector((state) => state.noteList);
+  const { loading, notes, error } = noteList;
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
     }
   };
 
-  const fetchNotes = async () => {
-    const { data } = await axios.get("/api/notes");
-    setNotesData(data);
-  };
+  const userLogin = useSelector((state) => state.userLogin);
+
+  const noteCreate = useSelector((state) => state.noteCreate);
+  const { success: successCreate } = noteCreate;
+  const { userInfo } = userLogin;
+
+  const history = useHistory;
 
   useEffect(() => {
-    fetchNotes();
-  }, []);
+    dispatch(listNotes());
+    if (!userInfo) {
+      history.push("/");
+    }
+  }, [dispatch, successCreate, history, userInfo]);
 
   return (
-    <MainScreen title="Welcome Back">
-      <Link to="createnote">
+    <MainScreen title={`Welcome Back ${userInfo.name}`}>
+      <Link to="create-note">
         <Button style={{ marginLeft: 10, marginBottom: 6 }} size="lg">
           Create New Note
         </Button>
       </Link>
 
-      {notesData.map((note, index) => (
+      {loading && <Loading />}
+      {notes?.map((note, index) => (
         <Accordion key={index}>
           <Card style={{ margin: 10 }}>
             <Card.Header style={{ display: "flex" }}>
@@ -65,7 +77,10 @@ const MyNotes = () => {
                 <blockquote className="blockquote mb-0">
                   <p>{note.content}</p>
                   <footer className="blockquote-footer">
-                    Created on 10/05/2020
+                    Created on{" "}
+                    <cite title="Source Title">
+                      {note.createdAt.substring(0, 10)}
+                    </cite>
                   </footer>
                 </blockquote>
               </Card.Body>
