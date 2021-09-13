@@ -12,7 +12,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../actions/userActions";
 
-const Header = () => {
+const Header = ({ setSearch }) => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -38,6 +38,7 @@ const Header = () => {
                 placeholder="Search"
                 className="mr-2"
                 aria-label="Search"
+                onChange={(e) => setSearch(e.target.value)}
               />
             </Form>
           </Nav>

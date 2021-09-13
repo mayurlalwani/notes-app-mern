@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -10,16 +11,17 @@ import CreateNote from "./components/screens/CreateNote/CreateNote";
 import SingleNote from "./components/screens/CreateNote/SingleNote";
 
 const App = () => {
+  const [search, setSearch] = useState("");
   return (
     <BrowserRouter>
-      <Header />
+      <Header setSearch={setSearch} />
       <main>
         <Route path="/" component={LandingPage} exact />
         <Route path="/login" component={LoginPage} exact />
         <Route path="/register" component={RegisterPage} exact />
         <Route path="/create-note" component={CreateNote} exact />
         <Route path="/note/:id" component={SingleNote} exact />
-        <Route path="/mynotes" component={() => <MyNotes />} />
+        <Route path="/mynotes" component={() => <MyNotes search={search} />} />
       </main>
       <Footer />
     </BrowserRouter>
