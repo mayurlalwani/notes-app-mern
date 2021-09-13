@@ -3,7 +3,7 @@ import MainScreen from "../../MainScreen";
 import { Link } from "react-router-dom";
 import { Button, Card, Badge, Accordion } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { listNotes } from "../../../actions/noteActions";
+import { deleteNoteAction, listNotes } from "../../../actions/noteActions";
 import Loading from "../../../components/Loading";
 import { useHistory } from "react-router-dom";
 
@@ -11,16 +11,28 @@ const MyNotes = () => {
   const dispatch = useDispatch();
   const noteList = useSelector((state) => state.noteList);
   const { loading, notes, error } = noteList;
+
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
+      dispatch(deleteNoteAction(id));
     }
   };
 
   const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const noteCreate = useSelector((state) => state.noteCreate);
   const { success: successCreate } = noteCreate;
-  const { userInfo } = userLogin;
+
+  const noteUpdate = useSelector((state) => state.noteUpdate);
+  const { success: successUpdate } = noteUpdate;
+
+  const noteDelete = useSelector((state) => state.noteDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = noteDelete;
 
   const history = useHistory;
 
@@ -29,7 +41,14 @@ const MyNotes = () => {
     if (!userInfo) {
       history.push("/");
     }
-  }, [dispatch, successCreate, history, userInfo]);
+  }, [
+    dispatch,
+    successCreate,
+    history,
+    userInfo,
+    successUpdate,
+    successDelete,
+  ]);
 
   return (
     <MainScreen title={`Welcome Back ${userInfo.name}`}>
