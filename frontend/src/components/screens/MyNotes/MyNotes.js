@@ -6,9 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteNoteAction, listNotes } from "../../../actions/noteActions";
 import Loading from "../../../components/Loading";
 import { useHistory } from "react-router-dom";
+import UserListModal from "../../UserListModal";
 
 const MyNotes = ({ search }) => {
   const dispatch = useDispatch();
+  const [modalShow, setModalShow] = useState(false);
+
   const noteList = useSelector((state) => state.noteList);
   const { loading, notes, error } = noteList;
 
@@ -83,7 +86,16 @@ const MyNotes = ({ search }) => {
                   </Accordion.Toggle>
                 </span>
                 <div>
-                  <Button href={`/note/${note._id}`}>Edit</Button>
+                  <Button
+                    variant="primary"
+                    className="mx-2"
+                    onClick={() => setModalShow(true)}
+                  >
+                    Share
+                  </Button>
+                  <Button href={`/note/${note._id}`} variant="info">
+                    Edit
+                  </Button>
                   <Button
                     variant="danger"
                     className="mx-2"
@@ -112,6 +124,7 @@ const MyNotes = ({ search }) => {
             </Card>
           </Accordion>
         ))}
+      <UserListModal show={modalShow} onHide={() => setModalShow(false)} />
     </MainScreen>
   );
 };
