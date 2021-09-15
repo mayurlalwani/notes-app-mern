@@ -12,7 +12,7 @@ const Loading = ({ size = 100 }) => {
         height: "100%",
       }}
     >
-      <Spinner style={{ width: size, height: size }} />
+      <Spinner style={{ width: size, height: size }} animation="border" />
     </div>
   );
 };
