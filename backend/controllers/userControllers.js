@@ -72,4 +72,20 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, authUser, updateUserProfile };
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find();
+  const userList = users.map((userDetails) => {
+    return {
+      id: userDetails._id,
+      name: userDetails.name,
+      email: userDetails.email,
+    };
+  });
+  if (users) {
+    res.json(userList);
+  } else {
+    res.status(400);
+  }
+});
+
+module.exports = { registerUser, authUser, updateUserProfile, getAllUsers };
