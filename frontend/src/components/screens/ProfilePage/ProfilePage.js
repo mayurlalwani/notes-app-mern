@@ -4,6 +4,9 @@ import MainScreen from "../../MainScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { updateProfile } from "../../../actions/userActions";
+import Loading from "../../../components/Loading";
+import ErrorMessage from "../../../components/ErrorMessage";
+import "./ProfilePage.css";
 
 const ProfilePage = () => {
   const history = useHistory();
@@ -69,6 +72,13 @@ const ProfilePage = () => {
         <Row className="profileContainer">
           <Col md={6}>
             <Form onSubmit={submitHandler}>
+              {loading && <Loading />}
+              {success && (
+                <ErrorMessage variant="success">
+                  Updated Successfully
+                </ErrorMessage>
+              )}
+              {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
               <Form.Group controlId="name">
                 <Form.Label>Name</Form.Label>
                 <Form.Control
@@ -108,9 +118,11 @@ const ProfilePage = () => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 ></Form.Control>
               </Form.Group>
-
+              {picMessage && (
+                <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
+              )}
               <Form.Group controlId="pic">
-                <Form.Label>Profile Picture</Form.Label>
+                <Form.Label>Change Profile Picture</Form.Label>
                 <Form.File
                   id="custom-file"
                   type="image/png"
