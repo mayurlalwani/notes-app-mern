@@ -11,6 +11,7 @@ import UserListModal from "../../UserListModal";
 const MyNotes = ({ search }) => {
   const dispatch = useDispatch();
   const [modalShow, setModalShow] = useState(false);
+  const [noteId, setNoteId] = useState();
 
   const noteList = useSelector((state) => state.noteList);
   const { loading, notes, error } = noteList;
@@ -38,6 +39,11 @@ const MyNotes = ({ search }) => {
   } = noteDelete;
 
   const history = useHistory;
+
+  const handleShareButton = (note) => {
+    setModalShow(true);
+    setNoteId(note._id);
+  };
 
   useEffect(() => {
     dispatch(listNotes());
@@ -89,7 +95,7 @@ const MyNotes = ({ search }) => {
                   <Button
                     variant="primary"
                     className="mx-2"
-                    onClick={() => setModalShow(true)}
+                    onClick={() => handleShareButton(note)}
                   >
                     Share
                   </Button>
@@ -124,7 +130,11 @@ const MyNotes = ({ search }) => {
             </Card>
           </Accordion>
         ))}
-      <UserListModal show={modalShow} onHide={() => setModalShow(false)} />
+      <UserListModal
+        show={modalShow}
+        noteId={noteId}
+        onHide={() => setModalShow(false)}
+      />
     </MainScreen>
   );
 };

@@ -10,20 +10,25 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers } from "../actions/userActions";
+import { noteShareAction } from "../actions/noteActions";
 
 const UserListModal = (props) => {
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.userList);
-
   const { loading, success, allUserDetails } = userList;
 
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [buttonClicked, setButtonClicked] = useState(false);
+
   const handleSelectUsers = (id, index) => {
     setSelectedUsers([...selectedUsers, id]);
     setButtonClicked({ ...buttonClicked, [index]: !buttonClicked[index] });
   };
-  console.log({ selectedUsers, buttonClicked });
+
+  const handleShareNotes = () => {
+    dispatch(noteShareAction(props.noteId, selectedUsers));
+  };
+
   useEffect(() => {
     dispatch(getAllUsers());
   }, []);
@@ -58,7 +63,7 @@ const UserListModal = (props) => {
         <Button variant="danger" onClick={props.onHide}>
           Close
         </Button>
-        <Button onClick={props.onHide}>Save</Button>
+        <Button onClick={handleShareNotes}>Save</Button>
       </Modal.Footer>
     </Modal>
   );

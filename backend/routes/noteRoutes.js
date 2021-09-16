@@ -18,5 +18,5 @@ router
   .get(getNoteById)
   .delete(protect, deleteNote)
   .put(protect, updateNote);
-router.route("/share/:id").put(protect, shareNote);
+router.route("/share").post(protect, shareNote);
 module.exports = router;

@@ -11,6 +11,9 @@ import {
   NOTES_DELETE_REQUEST,
   NOTES_DELETE_SUCCESS,
   NOTES_DELETE_FAIL,
+  NOTES_SHARE_REQUEST,
+  NOTES_SHARE_SUCCESS,
+  NOTES_SHARE_FAIL,
 } from "../constants/notesConstants";
 
 export const noteListReducer = (state = { notes: [] }, action) => {
@@ -91,6 +94,29 @@ export const noteDeleteReducer = (state = {}, action) => {
         success: true,
       };
     case NOTES_DELETE_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+        success: false,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const noteShareReducer = (state = {}, action) => {
+  switch (action.type) {
+    case NOTES_SHARE_REQUEST:
+      return {
+        loading: true,
+      };
+    case NOTES_SHARE_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case NOTES_SHARE_FAIL:
       return {
         loading: false,
         error: action.payload,

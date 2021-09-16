@@ -12,6 +12,9 @@ import {
   NOTES_DELETE_REQUEST,
   NOTES_DELETE_SUCCESS,
   NOTES_DELETE_FAIL,
+  NOTES_SHARE_REQUEST,
+  NOTES_SHARE_SUCCESS,
+  NOTES_SHARE_FAIL,
 } from "../constants/notesConstants";
 
 export const listNotes = () => async (dispatch, getState) => {
@@ -161,3 +164,43 @@ export const deleteNoteAction = (id) => async (dispatch, getState) => {
     });
   }
 };
+
+export const noteShareAction =
+  (noteId, userIds) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: NOTES_SHARE_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        `/api/notes/share`,
+        {
+          noteId: noteId,
+          userIds: userIds,
+        },
+        config
+      );
+
+      dispatch({
+        type: NOTES_SHARE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: NOTES_SHARE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

@@ -11,18 +11,20 @@ import {
   noteCreateReducer,
   noteDeleteReducer,
   noteListReducer,
+  noteShareReducer,
   noteUpdateReducer,
 } from "./reducers/notesReducer";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  userList: getAllUsersReducer,
+  userUpdate: userUpdateReducer,
   noteList: noteListReducer,
   noteCreate: noteCreateReducer,
   noteUpdate: noteUpdateReducer,
   noteDelete: noteDeleteReducer,
-  userUpdate: userUpdateReducer,
-  userList: getAllUsersReducer,
+  noteShare: noteShareReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
