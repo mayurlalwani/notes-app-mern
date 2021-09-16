@@ -19,6 +19,11 @@ const noteSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
+    sharedUserId: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
+      required: false,
+    },
   },
   {
     timestamps: true,

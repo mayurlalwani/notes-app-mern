@@ -5,6 +5,7 @@ const {
   getNoteById,
   updateNote,
   deleteNote,
+  shareNote,
 } = require("../controllers/noteController");
 const { protect } = require("../middlewares/authMiddleware");
 
@@ -17,4 +18,5 @@ router
   .get(getNoteById)
   .delete(protect, deleteNote)
   .put(protect, updateNote);
+router.route("/share/:id").put(protect, shareNote);
 module.exports = router;

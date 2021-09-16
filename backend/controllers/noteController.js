@@ -12,7 +12,13 @@ const createNote = asyncHandler(async (req, res) => {
   if (!title || !content || !category) {
     throw new Error("Please fill all the fields");
   } else {
-    const note = new Note({ user: req.user._id, title, content, category });
+    const note = new Note({
+      user: req.user._id,
+      title,
+      content,
+      category,
+      sharedUserId: null,
+    });
     const createdNote = await note.save();
     res.status(201).json({ createdNote });
   }
@@ -58,4 +64,34 @@ const deleteNote = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getNotes, createNote, getNoteById, updateNote, deleteNote };
+const shareNote = asyncHandler(async (req, res) => {
+  const { noteId, userIds } = req.body;
+  const note = await Note.findById(noteId);
+  if (note.user.toString() !== req.user._id.toString()) {
+    throw new Error("You cannot permorm this action");
+  }
+
+  let users = userIds.map((user) => {
+    return {
+      id: user,
+    };
+  });
+
+  if (note) {
+    note.sharedUserId = userIds;
+
+    const sharedNote = await note.save();
+    res.json(sharedNote);
+  } else {
+    throw new Error("Note not found");
+  }
+});
+
+module.exports = {
+  getNotes,
+  createNote,
+  getNoteById,
+  updateNote,
+  deleteNote,
+  shareNote,
+};
