@@ -16,7 +16,7 @@ const LandingPage = ({ history }) => {
           <div className="intro-text">
             <div>
               <h1 className="title">
-                Welcome to Notes App
+                Welcome to Note Zipper
                 <p className="subtitle">One safe place for all your notes</p>
               </h1>
             </div>

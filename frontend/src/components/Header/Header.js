@@ -11,6 +11,7 @@ import {
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../actions/userActions";
+import "./Header.css";
 
 const Header = ({ setSearch }) => {
   const dispatch = useDispatch();
@@ -27,7 +28,9 @@ const Header = ({ setSearch }) => {
     <Navbar bg="primary" expand="lg" variant="dark">
       <Container>
         <Navbar.Brand>
-          <Link to="/">Notes App</Link>
+          <Link to="/">
+            <span className="menu-items">HOME</span>
+          </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
@@ -49,12 +52,20 @@ const Header = ({ setSearch }) => {
               navbarScroll
             >
               <Nav.Link>
-                <Link to="/mynotes">My Notes</Link>
+                <Link to="/mynotes">
+                  <span className="menu-items">My Notes</span>
+                </Link>
               </Nav.Link>
               <Nav.Link>
-                <Link to="/sharednotes">Shared with me</Link>
+                <Link to="/sharednotes">
+                  <span className="menu-items"> Shared with me</span>
+                </Link>
               </Nav.Link>
-              <NavDropdown title={userInfo?.name} id="navbarScrollingDropdown">
+              <NavDropdown
+                title={userInfo?.name}
+                id="navbarScrollingDropdown"
+                style={{ color: "white" }}
+              >
                 <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
                 <NavDropdown.Item onClick={logoutHandler}>
                   Logout
@@ -64,7 +75,9 @@ const Header = ({ setSearch }) => {
           ) : (
             <Nav>
               <Nav.Link>
-                <Link to="/login">Login</Link>
+                <Link to="/login">
+                  <span className="menu-items">LOGIN</span>
+                </Link>
               </Nav.Link>
             </Nav>
           )}
