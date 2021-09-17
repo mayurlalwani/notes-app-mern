@@ -6,12 +6,14 @@ const {
   updateNote,
   deleteNote,
   shareNote,
+  getSharedNotes,
 } = require("../controllers/noteController");
 const { protect } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
 router.route("/").get(protect, getNotes);
+router.route("/getSharedNotes").get(protect, getSharedNotes);
 router.route("/create").post(protect, createNote);
 router
   .route("/:id")

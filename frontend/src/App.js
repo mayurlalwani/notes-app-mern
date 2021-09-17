@@ -4,6 +4,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import LandingPage from "./components/screens/LandingPage/LandingPage";
 import MyNotes from "./components/screens/MyNotes/MyNotes";
+import SharedNotes from "./components/screens/SharedNotes/SharedNotes";
 import { BrowserRouter, Route } from "react-router-dom";
 import LoginPage from "./components/screens/LoginPage/LoginPage";
 import ProfilePage from "./components/screens/ProfilePage/ProfilePage";
@@ -24,6 +25,10 @@ const App = () => {
         <Route path="/create-note" component={CreateNote} exact />
         <Route path="/note/:id" component={SingleNote} exact />
         <Route path="/mynotes" component={() => <MyNotes search={search} />} />
+        <Route
+          path="/sharednotes"
+          component={() => <SharedNotes search={search} />}
+        />
       </main>
       <Footer />
     </BrowserRouter>

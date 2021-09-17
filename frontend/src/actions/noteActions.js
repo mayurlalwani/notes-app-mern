@@ -15,6 +15,9 @@ import {
   NOTES_SHARE_REQUEST,
   NOTES_SHARE_SUCCESS,
   NOTES_SHARE_FAIL,
+  SHARED_NOTES_LIST_REQUEST,
+  SHARED_NOTES_LIST_SUCCESS,
+  SHARED_NOTES_LIST_FAIL,
 } from "../constants/notesConstants";
 
 export const listNotes = () => async (dispatch, getState) => {
@@ -204,3 +207,32 @@ export const noteShareAction =
       });
     }
   };
+
+export const listSharedNotes = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: SHARED_NOTES_LIST_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get("/api/notes/getSharedNotes", config);
+
+    dispatch({
+      type: SHARED_NOTES_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: SHARED_NOTES_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

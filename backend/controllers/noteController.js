@@ -2,7 +2,7 @@ const Note = require("../models/noteModel");
 const asyncHandler = require("express-async-handler");
 
 const getNotes = asyncHandler(async (req, res) => {
-  const notes = await Note.find(req.user._id);
+  const notes = await Note.find({ user: req.user._id });
   res.json(notes);
 });
 
@@ -87,6 +87,12 @@ const shareNote = asyncHandler(async (req, res) => {
   }
 });
 
+const getSharedNotes = asyncHandler(async (req, res) => {
+  const notes = await Note.find({ sharedUserId: req.user._id });
+
+  res.json(notes);
+});
+
 module.exports = {
   getNotes,
   createNote,
@@ -94,4 +100,5 @@ module.exports = {
   updateNote,
   deleteNote,
   shareNote,
+  getSharedNotes,
 };

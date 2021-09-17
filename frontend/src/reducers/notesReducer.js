@@ -14,6 +14,9 @@ import {
   NOTES_SHARE_REQUEST,
   NOTES_SHARE_SUCCESS,
   NOTES_SHARE_FAIL,
+  SHARED_NOTES_LIST_REQUEST,
+  SHARED_NOTES_LIST_SUCCESS,
+  SHARED_NOTES_LIST_FAIL,
 } from "../constants/notesConstants";
 
 export const noteListReducer = (state = { notes: [] }, action) => {
@@ -121,6 +124,28 @@ export const noteShareReducer = (state = {}, action) => {
         loading: false,
         error: action.payload,
         success: false,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const sharedNoteListReducer = (state = { sharedNotes: [] }, action) => {
+  switch (action.type) {
+    case SHARED_NOTES_LIST_REQUEST:
+      return {
+        loading: true,
+      };
+    case SHARED_NOTES_LIST_SUCCESS:
+      return {
+        loading: false,
+        sharedNotes: action.payload,
+      };
+    case SHARED_NOTES_LIST_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
       };
 
     default:
