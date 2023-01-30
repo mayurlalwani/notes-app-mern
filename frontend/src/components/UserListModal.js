@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
-import { Modal, Col, Row, Container, Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllUsers } from "../actions/userActions";
 import { noteShareAction } from "../actions/noteActions";
-import { notification, Divider, Space } from "antd";
-import "antd/dist/antd.css";
+import { getAllUsers } from "../actions/userActions";
 
 const UserListModal = (props) => {
   const dispatch = useDispatch();
@@ -24,15 +22,15 @@ const UserListModal = (props) => {
     dispatch(noteShareAction(props.noteId, selectedUsers));
     setDisplayNotification(true);
     props.onHide();
-    openNotification("bottomLeft");
+    // openNotification("bottomLeft");
   };
 
-  const openNotification = (placement) => {
-    notification.info({
-      message: `Note shared successfully!!`,
-      placement,
-    });
-  };
+  // const openNotification = (placement) => {
+  //   notification.info({
+  //     message: `Note shared successfully!!`,
+  //     placement,
+  //   });
+  // };
 
   useEffect(() => {
     dispatch(getAllUsers());
