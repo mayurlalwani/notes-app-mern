@@ -32,7 +32,10 @@ export const listNotes = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get("/api/notes", config);
+    const { data } = await axios.get(
+      "https://notes-api-m46w.onrender.com/api/notes",
+      config
+    );
 
     dispatch({
       type: NOTES_LIST_SUCCESS,

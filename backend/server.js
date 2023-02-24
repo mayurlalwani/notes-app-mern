@@ -7,9 +7,16 @@ const userRoutes = require("./routes/userRoutes");
 const noteRoutes = require("./routes/noteRoutes");
 const { errorHandler, notFound } = require("./middlewares/errorMiddleware");
 const path = require("path");
+const cors = require("cors");
+app.use(cors());
 
 dotenv.config();
 connectDB();
+
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   next();
+// });
 
 app.use(express.json());
 
