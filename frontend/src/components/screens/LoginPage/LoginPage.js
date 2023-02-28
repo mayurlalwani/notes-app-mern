@@ -22,6 +22,11 @@ const LoginPage = ({ history }) => {
     }
   }, [history, userInfo]);
 
+  const setDefaultCredentials = () => {
+    setEmail(process.env.REACT_APP_DEFAULT_EMAIL);
+    setPassword(process.env.REACT_APP_DEFAULT_PASSWORD);
+  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
     dispatch(login(email, password));
@@ -53,8 +58,15 @@ const LoginPage = ({ history }) => {
             ></Form.Control>
           </Form.Group>
 
-          <Button variant="primary" type="submit">
-            Submit
+          <Button variant="primary" type="submit" className="mr-5">
+            Login
+          </Button>
+          <Button
+            variant="primary"
+            onClick={setDefaultCredentials}
+            type="submit"
+          >
+            Login with test credentials
           </Button>
         </Form>
         <Row className="py-3">
