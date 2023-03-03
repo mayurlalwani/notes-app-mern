@@ -11,12 +11,16 @@ import ProfilePage from "./components/screens/ProfilePage/ProfilePage";
 import RegisterPage from "./components/screens/RegisterPage/RegisterPage";
 import CreateNote from "./components/screens/CreateNote/CreateNote";
 import SingleNote from "./components/screens/CreateNote/SingleNote";
+import { useSelector } from "react-redux";
 
 const App = () => {
   const [search, setSearch] = useState("");
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   return (
     <BrowserRouter>
-      <Header setSearch={setSearch} />
+      {userInfo && <Header setSearch={setSearch} />}
       <main>
         <Route path="/" component={LandingPage} exact />
         <Route path="/login" component={LoginPage} exact />
